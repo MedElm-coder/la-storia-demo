@@ -484,16 +484,25 @@
     .navbar .btn-ghost{display:none;}
     .nav-toggle{display:block;}
     .hero-inner{grid-template-columns:1fr; padding-top:120px; text-align:left;}
-    .hero-visual{order:-1; margin-bottom:8px;}
-    .hero-photo{aspect-ratio:16/10;}
+    .hero-visual{order:-1; margin-bottom:8px; display:flex; flex-direction:column; gap:14px;}
+    .hero-photo{aspect-ratio:4/5; border-radius:5px;}
+    .hero-visual .float-card{
+      position:static; left:auto; right:auto; bottom:auto; top:auto;
+      max-width:100%; width:100%; box-shadow:0 12px 28px -14px rgba(43,36,29,0.35);
+    }
     .story-grid{grid-template-columns:1fr;}
     .story-badge{width:96px; height:96px; font-size:0.72rem; right:6px;}
     .stat-row{grid-template-columns:1fr;}
-    .find-grid{grid-template-columns:1fr;}
-    .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:190px;}
-    .gallery-grid .g-item{grid-row:span 2;}
-    .gallery-grid .g-item.wide{grid-column:span 2; grid-row:span 1;}
-    .gallery-grid .g-item.full{grid-column:span 2; grid-row:span 2;}
+    .find-grid{grid-template-columns:1fr; gap:32px; margin-top:32px;}
+    .map-embed{aspect-ratio:4/3;}
+    .gallery-grid{grid-template-columns:1fr; grid-auto-rows:auto; gap:16px;}
+    .gallery-grid .g-item,
+    .gallery-grid .g-item.sq,
+    .gallery-grid .g-item.wide,
+    .gallery-grid .g-item.full{
+      grid-column:span 1; grid-row:span 1; aspect-ratio:4/3;
+    }
+    .gallery-grid .g-item.video-item{aspect-ratio:16/9;}
     .menu-grid{grid-template-columns:1fr;}
     .reviews-grid{grid-template-columns:1fr;}
     .chapter{padding:80px 0;}
@@ -504,7 +513,7 @@
 </head>
 <body>
 
-<div class="demo-banner">MAQUETTE DE DÉMONSTRATION — photos réelles (Instagram), les avis clients ci-dessous sont encore des exemples à remplacer</div>
+<div class="demo-banner">APERÇU PERSONNALISÉ — Version de démonstration préparée pour La Storia Casablanca</div>
 <header id="siteHeader">
   <div class="navbar">
     <div class="brand">La Storia <span>Casablanca</span></div>
