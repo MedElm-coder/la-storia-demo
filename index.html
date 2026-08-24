@@ -56,6 +56,7 @@
   img{max-width:100%; display:block;}
   .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
   ::selection{background:var(--ochre); color:var(--ink);}
+  body.nav-open{overflow:hidden; position:fixed; width:100%;}
 
   /* ---------- REVEAL SYSTEM ---------- */
   .reveal{
@@ -97,7 +98,10 @@
     font-family:'Fraunces', serif; font-weight:600; font-size:1.3rem;
     letter-spacing:0.01em; color:var(--parchment);
     transition:color .4s var(--ease);
+    display:flex; align-items:center; gap:11px;
   }
+  .brand-mark{color:var(--ochre-light); flex-shrink:0; transition:color .4s var(--ease);}
+  header.scrolled .brand-mark{color:var(--ochre);}
   header.scrolled .brand{color:var(--ink);}
   .brand span{color:var(--ochre-light); font-style:italic; font-weight:500;}
   header.scrolled .brand span{color:var(--ochre);}
@@ -108,6 +112,7 @@
     transition:color .4s var(--ease);
   }
   header.scrolled nav a{color:var(--ink);}
+  header.scrolled nav ul.open a{color:var(--parchment);}
   nav a:after{
     content:""; position:absolute; left:0; bottom:0; width:0; height:1.5px;
     background:var(--ochre); transition:width .3s var(--ease);
@@ -133,10 +138,19 @@
   header.scrolled .btn-ghost:hover{background:var(--ink); color:var(--parchment);}
   .navbar .btn{padding:10px 18px; font-size:0.8rem;}
   .nav-toggle{
-    display:none; background:none; border:none; cursor:pointer; padding:6px;
+    display:none; background:none; border:none; cursor:pointer; padding:8px;
     color:var(--parchment); transition:color .4s var(--ease);
+    flex-direction:column; justify-content:center; gap:5px; width:38px; height:38px;
   }
+  .nav-close-btn{display:none;}
   header.scrolled .nav-toggle{color:var(--ink);}
+  .hb-line{
+    display:block; width:22px; height:2px; background:currentColor; border-radius:2px;
+    transition:transform .35s var(--ease), opacity .25s var(--ease), width .35s var(--ease);
+  }
+  .nav-toggle.active .hb-1{transform:translateY(7px) rotate(45deg);}
+  .nav-toggle.active .hb-2{opacity:0; width:0;}
+  .nav-toggle.active .hb-3{transform:translateY(-7px) rotate(-45deg);}
 
   /* ---------- HERO ---------- */
   .hero{
@@ -466,23 +480,54 @@
   .demo-banner{
     position:fixed; top:0; left:0; right:0; z-index:120;
     background:var(--ochre); color:var(--ink-3); text-align:center;
-    font-family:'IBM Plex Mono', monospace; font-size:0.74rem;
-    padding:10px 16px; letter-spacing:0.02em;
+    padding:11px 16px; display:flex; align-items:center; justify-content:center;
+    gap:10px; flex-wrap:wrap;
   }
-  body{padding-top: var(--banner-h, 40px);}
+  .db-badge{
+    font-family:'Fraunces',serif; font-weight:600; font-style:italic; font-size:0.82rem;
+    background:rgba(12,28,42,0.12); padding:3px 11px; border-radius:100px; white-space:nowrap;
+  }
+  .db-text{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.01em;
+  }
+  body{padding-top: var(--banner-h, 46px);}
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 900px){
     nav ul{
-      position:fixed; top:0; right:0; height:100vh; width:min(78vw,320px);
-      background:var(--ink-3); flex-direction:column; justify-content:center; gap:34px;
-      padding:32px; transform:translateX(100%); transition:transform .45s var(--ease);
-      z-index:99;
+      position:fixed; inset:0; width:100%; height:100dvh;
+      background:var(--ink-3); flex-direction:column; justify-content:center; align-items:flex-start; gap:0;
+      padding:32px 32px; transform:translateX(100%); transition:transform .45s var(--ease);
+      z-index:99; overflow-y:auto;
     }
+    nav ul:before{
+      content:"La Storia"; position:absolute; top:32px; left:32px;
+      font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:1rem;
+      color:var(--ochre-light); opacity:0.85;
+    }
+    .nav-close-btn{
+      display:none; position:fixed; top:26px; right:26px; z-index:150;
+      align-items:center; justify-content:center; width:42px; height:42px;
+      background:var(--ink-3); border:1px solid rgba(244,236,218,0.3); border-radius:50%;
+      color:var(--parchment); cursor:pointer; padding:0;
+      opacity:0; transform:scale(0.8);
+      transition:background .25s var(--ease), transform .3s var(--ease), opacity .3s var(--ease);
+    }
+    body.nav-open .nav-close-btn{display:flex; opacity:1; transform:scale(1);}
+    .nav-close-btn:hover{background:var(--ink-2); transform:rotate(90deg) scale(1);}
+    .nav-close-btn svg{width:18px; height:18px;}
     nav ul.open{transform:translateX(0);}
-    nav a{color:var(--parchment); font-size:1.1rem;}
+    nav ul li{width:100%; border-bottom:1px solid rgba(244,236,218,0.1); opacity:0; transform:translateY(14px); transition:opacity .4s var(--ease), transform .4s var(--ease);}
+    nav ul li:last-child{border-bottom:none;}
+    nav ul.open li{opacity:1; transform:translateY(0);}
+    nav ul.open li:nth-child(1){transition-delay:.08s;}
+    nav ul.open li:nth-child(2){transition-delay:.14s;}
+    nav ul.open li:nth-child(3){transition-delay:.20s;}
+    nav ul.open li:nth-child(4){transition-delay:.26s;}
+    nav ul.open li:nth-child(5){transition-delay:.32s;}
+    nav a{color:var(--parchment); font-size:1.45rem; padding:18px 0; display:block;}
     .navbar .btn-ghost{display:none;}
-    .nav-toggle{display:block;}
+    .nav-toggle{display:flex;}
     .hero-inner{grid-template-columns:1fr; padding-top:120px; text-align:left;}
     .hero-visual{order:-1; margin-bottom:8px; display:flex; flex-direction:column; gap:14px;}
     .hero-photo{aspect-ratio:4/5; border-radius:5px;}
@@ -508,15 +553,32 @@
     .chapter{padding:80px 0;}
     .wrap{padding:0 22px;}
     .hero-inner{padding-left:22px; padding-right:22px;}
+    .db-text{font-size:0.66rem;}
+    .db-badge{font-size:0.76rem;}
+    .brand{font-size:1.08rem; gap:8px;}
+    .brand-mark{width:28px; height:28px;}
+    .navbar{padding:0 20px;}
   }
 </style>
 </head>
 <body>
 
-<div class="demo-banner">APERÇU PERSONNALISÉ — Version de démonstration préparée pour La Storia Casablanca</div>
+<div class="demo-banner">
+  <span class="db-badge">✦ Aperçu sur-mesure</span>
+  <span class="db-text">Cette page a été conçue spécialement pour La Storia — explorez librement</span>
+</div>
 <header id="siteHeader">
   <div class="navbar">
-    <div class="brand">La Storia <span>Casablanca</span></div>
+    <div class="brand">
+      <svg class="brand-mark" width="34" height="34" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18.5" stroke="currentColor" stroke-width="1.1"/>
+        <text x="20" y="26" text-anchor="middle" font-family="Fraunces, serif" font-size="17" font-weight="600" fill="currentColor">S</text>
+      </svg>
+      <span class="brand-text">La Storia <span>Casablanca</span></span>
+    </div>
+    <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
     <nav>
       <ul id="navList">
         <li><a href="#histoire">Notre histoire</a></li>
@@ -530,7 +592,9 @@
       <a class="btn btn-ghost" href="https://www.instagram.com/lastoria.casablanca/" target="_blank" rel="noopener">Instagram</a>
       <a class="btn btn-primary" href="https://wa.me/212707788782" target="_blank" rel="noopener">Réserver</a>
       <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+        <span class="hb-line hb-1"></span>
+        <span class="hb-line hb-2"></span>
+        <span class="hb-line hb-3"></span>
       </button>
     </div>
   </div>
@@ -812,6 +876,7 @@
   // Header scroll state
   const header = document.getElementById('siteHeader');
   const onScroll = () => {
+    if(document.body.classList.contains('nav-open')) return;
     if(window.scrollY > 40){ header.classList.add('scrolled'); }
     else{ header.classList.remove('scrolled'); }
   };
@@ -821,14 +886,35 @@
   // Mobile nav toggle
   const navToggle = document.getElementById('navToggle');
   const navList = document.getElementById('navList');
-  navToggle.addEventListener('click', () => {
-    const isOpen = navList.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen);
-  });
-  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  let savedScrollY = 0;
+
+  const openMobileNav = () => {
+    savedScrollY = window.scrollY;
+    navList.classList.add('open');
+    navToggle.classList.add('active');
+    navToggle.setAttribute('aria-expanded', 'true');
+    navToggle.setAttribute('aria-label', 'Fermer le menu');
+    document.body.style.top = -savedScrollY + 'px';
+    document.body.classList.add('nav-open');
+  };
+
+  const closeMobileNav = () => {
     navList.classList.remove('open');
-    navToggle.setAttribute('aria-expanded','false');
-  }));
+    navToggle.classList.remove('active');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Ouvrir le menu');
+    document.body.classList.remove('nav-open');
+    document.body.style.top = '';
+    window.scrollTo(0, savedScrollY);
+  };
+
+  navToggle.addEventListener('click', () => {
+    if(navList.classList.contains('open')){ closeMobileNav(); }
+    else{ openMobileNav(); }
+  });
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+  const navCloseBtn = document.getElementById('navCloseBtn');
+  if(navCloseBtn){ navCloseBtn.addEventListener('click', closeMobileNav); }
 
   // Hero load-in
   window.addEventListener('load', () => {
